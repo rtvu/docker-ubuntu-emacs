@@ -21,6 +21,8 @@ else
 fi
 
 if [[ "$VERBOSE" == "true" || "$VERBOSE_ALL" == "true" ]]; then
+    printf '\nBuilding: "ubuntu-emacs"\n\n'
+
   docker build --file "$SCRIPT_DIRECTORY/Dockerfile" --tag ubuntu-emacs "$SCRIPT_DIRECTORY"
 else
   docker build --quiet --file "$SCRIPT_DIRECTORY/Dockerfile" --tag ubuntu-emacs "$SCRIPT_DIRECTORY"
