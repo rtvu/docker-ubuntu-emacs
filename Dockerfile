@@ -38,18 +38,22 @@ RUN \
 RUN \
   sudo apt update && \
   sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+    dvipng \
+    dvisvgm \
     fd-find \
     fonts-jetbrains-mono \
     fonts-inter \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     ripgrep \
+    texlive-latex-extra \
     unzip \
     && \
   sudo rm -rf /var/lib/apt/lists/*
 
 RUN \
   cd $HOME && \
+  mkdir .fonts && \
   git clone https://github.com/domtronn/all-the-icons.el.git && \
   cp all-the-icons.el/fonts/*.ttf .fonts/ && \
   rm -rf all-the-icons.el && \
