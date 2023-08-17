@@ -39,23 +39,14 @@ RUN \
   sudo apt update && \
   sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     fd-find \
-    fonts-firacode \
+    fonts-jetbrains-mono \
+    fonts-inter \
     libcanberra-gtk-module \
     libcanberra-gtk3-module \
     ripgrep \
     unzip \
     && \
   sudo rm -rf /var/lib/apt/lists/*
-
-RUN \
-  cd $HOME && \
-  wget --output-document Fira_Sans.zip https://fonts.google.com/download?family=Fira%20Sans && \
-  unzip Fira_Sans.zip -d Fira_Sans && \
-  mkdir -p .fonts && \
-  cp Fira_Sans/*.ttf .fonts/ && \
-  rm Fira_Sans.zip && \
-  rm -rf Fira_Sans && \
-  fc-cache -f -v
 
 RUN \
   cd $HOME && \
