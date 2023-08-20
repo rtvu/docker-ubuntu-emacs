@@ -9,27 +9,51 @@ FROM ubuntu-base
 ###############
 
 RUN \
+  export CC=/usr/bin/gcc-10 && \
+  export CXX=/usr/bin/gcc-10 && \
   cd $HOME && \
   sudo cp /etc/apt/sources.list /etc/apt/sources.list~ && \
   sudo sed -Ei "s/^# deb-src/deb-src/" /etc/apt/sources.list && \
   sudo apt update && \
   sudo DEBIAN_FRONTEND=noninteractive apt build-dep -y emacs && \
   sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+    dvipng \
+    dvisvgm \
+    gcc-10 \
+    gnutls-bin \
+    imagemagick \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+    libgccjit-10-dev \
     libgccjit0 \
-    libgccjit-11-dev \
+    libjansson-dev \
+    libjansson4 \
+    libmagick++-dev \
+    libtree-sitter-dev \
+    libwebp-dev \
+    libxft-dev \
+    libxft2 \
+    texlive-latex-extra \
+    webp \
     && \
   sudo rm -rf /var/lib/apt/lists/* && \
   sudo mv /etc/apt/sources.list~ /etc/apt/sources.list && \
-  wget https://ftpmirror.gnu.org/emacs/emacs-28.1.tar.xz && \
-  tar -xvf emacs-28.1.tar.xz && \
-  cd emacs-28.1 && \
+  wget https://ftpmirror.gnu.org/emacs/emacs-29.1.tar.xz && \
+  tar -xvf emacs-29.1.tar.xz && \
+  cd emacs-29.1 && \
   ./autogen.sh && \
-  ./configure --with-native-compilation && \
-  make -j$(proc) && \
+  ./configure \
+    --with-imagemagick \
+    --with-json \
+    --with-native-compilation=aot \
+    --with-tree-sitter \
+    --with-xft \
+    && \
+  make -j$(nproc) && \
   sudo make install && \
   cd .. && \
-  rm emacs-28.1.tar.xz && \
-  rm -rf emacs-28.1
+  rm emacs-29.1.tar.xz && \
+  rm -rf emacs-29.1
 
 ################################
 # Setup Doom Emacs Environment #
@@ -38,15 +62,10 @@ RUN \
 RUN \
   sudo apt update && \
   sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-    dvipng \
-    dvisvgm \
     fd-find \
     fonts-jetbrains-mono \
     fonts-inter \
-    libcanberra-gtk-module \
-    libcanberra-gtk3-module \
     ripgrep \
-    texlive-latex-extra \
     unzip \
     && \
   sudo rm -rf /var/lib/apt/lists/*
